@@ -189,6 +189,11 @@ MySteam::refresh_achievements_and_stats() {
 
     std::string response = m_ipc_socket->request_response(make_get_achievements_request_string());
 
+    //DEBUG
+    std::regex reg("\"RATE\":\\d*,\\d*,");
+    response = regex_replace(response, reg, "");
+    //END DEBUG
+
     if (!decode_ack(response)) {
         std::cerr << "Failed to receive ack!" << std::endl;
     }

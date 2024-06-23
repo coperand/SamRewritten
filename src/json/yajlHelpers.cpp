@@ -348,14 +348,14 @@ decode_achievements(std::string response) {
         }
         achievements[i].icon_name = YAJL_GET_STRING(cur_val);
         
-        cur_val = yajl_tree_get(cur_node, rate_path, yajl_t_number);
+        /* cur_val = yajl_tree_get(cur_node, rate_path, yajl_t_number);
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach rate)" << std::endl;
         }
         if (!YAJL_IS_DOUBLE(cur_val)) {
             std::cerr << "double float parsing error" << std::endl;
         }
-        achievements[i].global_achieved_rate = YAJL_GET_DOUBLE(cur_val);
+        achievements[i].global_achieved_rate = YAJL_GET_DOUBLE(cur_val); */
         
         // why is bool parsing weird
         cur_val = yajl_tree_get(cur_node, achieved_path, yajl_t_any);

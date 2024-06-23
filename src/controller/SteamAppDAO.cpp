@@ -73,7 +73,7 @@ SteamAppDAO::update_name_database() {
     // generated SteamAppsListDumps, so we can use the same parse_app_names function :)
 
     // TODO: turn this into a command line option, or a setting
-    const int retrieval_strategy = 1;
+    const int retrieval_strategy = 3;
 
     static std::string file_url[2];
     static std::string local_file_name[2];
