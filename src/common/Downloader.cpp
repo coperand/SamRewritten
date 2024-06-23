@@ -39,6 +39,12 @@ Downloader::download_file(const std::string& file_url, const std::string& local_
             /* always cleanup */
             curl_easy_cleanup(curl);
             fclose(fp);
+
+            //Erasing file if code is not 200
+            long http_code = 0;
+            curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+            if(http_code != 200)
+                unlink(local_path.c_str());
         }
         else {
             std::cerr << "An error occurred creating curl. Please report it to the developers!" << std::endl;

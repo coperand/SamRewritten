@@ -536,7 +536,9 @@ MainPickerWindow::refresh_app_icon(AppId_t app_id) {
     {
         if ( i->get_app().app_id == app_id )
         {
-            i->set_icon(path, 146, 68);
+            struct stat buffer;
+            if(stat(path.c_str(), &buffer) == 0)
+                i->set_icon(path, 146, 68);
             return;
         }
     }

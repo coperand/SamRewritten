@@ -1,4 +1,5 @@
 #pragma once
+#include <unistd.h>
 #include <string>
 #include "../../steam/steamtypes.h"
 
