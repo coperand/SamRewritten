@@ -285,6 +285,9 @@ decode_achievements(std::string response) {
     std::vector<Achievement_t> achievements;
     char error_buffer[500];
 
+    //Setting locale to prevent issues with parsing float numbers
+    setlocale(LC_ALL, "C");
+
     //parse response
     yajl_val node = yajl_tree_parse(response.c_str(), error_buffer, 500);
 
@@ -328,59 +331,67 @@ decode_achievements(std::string response) {
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach id)" << std::endl;
         }
-        achievements[i].id = YAJL_GET_STRING(cur_val);
+        else
+            achievements[i].id = YAJL_GET_STRING(cur_val);
 
         cur_val = yajl_tree_get(cur_node, name_path, yajl_t_string);
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach name)" << std::endl;
         }
-        achievements[i].name = YAJL_GET_STRING(cur_val);
+        else
+            achievements[i].name = YAJL_GET_STRING(cur_val);
 
         cur_val = yajl_tree_get(cur_node, desc_path, yajl_t_string);
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach desc)" << std::endl;
         }
-        achievements[i].desc = YAJL_GET_STRING(cur_val);
+        else
+            achievements[i].desc = YAJL_GET_STRING(cur_val);
 
         cur_val = yajl_tree_get(cur_node, icon_path, yajl_t_string);
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach icon)" << std::endl;
         }
-        achievements[i].icon_name = YAJL_GET_STRING(cur_val);
+        else
+            achievements[i].icon_name = YAJL_GET_STRING(cur_val);
         
-        /* cur_val = yajl_tree_get(cur_node, rate_path, yajl_t_number);
+        cur_val = yajl_tree_get(cur_node, rate_path, yajl_t_number);
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach rate)" << std::endl;
         }
-        if (!YAJL_IS_DOUBLE(cur_val)) {
+        else if (!YAJL_IS_DOUBLE(cur_val)) {
             std::cerr << "double float parsing error" << std::endl;
         }
-        achievements[i].global_achieved_rate = YAJL_GET_DOUBLE(cur_val); */
+        else
+            achievements[i].global_achieved_rate = YAJL_GET_DOUBLE(cur_val);
         
         // why is bool parsing weird
         cur_val = yajl_tree_get(cur_node, achieved_path, yajl_t_any);
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach achieved)" << std::endl;
         }
-        if (!YAJL_IS_TRUE(cur_val) && !YAJL_IS_FALSE(cur_val)) {
+        else if (!YAJL_IS_TRUE(cur_val) && !YAJL_IS_FALSE(cur_val)) {
             std::cerr << "bool parsing error" << std::endl;
         }
-        achievements[i].achieved = YAJL_IS_TRUE(cur_val);
+        else
+            achievements[i].achieved = YAJL_IS_TRUE(cur_val);
 
         cur_val = yajl_tree_get(cur_node, hidden_path, yajl_t_any);
         if (cur_val == NULL) {
             std::cerr << "parsing error (ach hidden)" << std::endl;
         }
-        if (!YAJL_IS_TRUE(cur_val) && !YAJL_IS_FALSE(cur_val)) {
+        else if (!YAJL_IS_TRUE(cur_val) && !YAJL_IS_FALSE(cur_val)) {
             std::cerr << "bool parsing error" << std::endl;
         }
-        achievements[i].hidden = YAJL_IS_TRUE(cur_val);
+        else
+            achievements[i].hidden = YAJL_IS_TRUE(cur_val);
 
         cur_val = yajl_tree_get(cur_node, permission_path, yajl_t_number);
         if (cur_val == NULL) {
             std::cerr << "parsing error (achievement permission)" << std::endl;
         }
-        achievements[i].permission = YAJL_GET_INTEGER(cur_val);
+        else
+            achievements[i].permission = YAJL_GET_INTEGER(cur_val);
     }
 
     yajl_tree_free(node);
